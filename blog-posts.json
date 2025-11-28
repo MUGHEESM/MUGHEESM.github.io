@@ -1,0 +1,13 @@
+[
+    {
+        "id": 4,
+        "title": "Blue Machine Walkthrough - EternalBlue Exploit",
+        "category": "walkthrough",
+        "excerpt": "Complete step-by-step walkthrough exploiting the EternalBlue vulnerability (MS17-010) on a Windows machine using Metasploit Framework.",
+        "content": "<h3>Overview</h3><p>This walkthrough demonstrates how to exploit the infamous EternalBlue vulnerability on a Windows 7 machine. You'll learn reconnaissance, exploitation, and post-exploitation techniques.</p><p><a href='Walthroughs/Blue/blue-walkthrough.html' style='color: var(--primary-color);'>Read the full walkthrough →</a></p>",
+        "image": "https://via.placeholder.com/800x400/0a192f/00ff88?text=Blue+EternalBlue+Walkthrough",
+        "date": "2025-11-28",
+        "isExternal": true,
+        "externalLink": "Walthroughs/Blue/blue-walkthrough.html"
+    }
+]

