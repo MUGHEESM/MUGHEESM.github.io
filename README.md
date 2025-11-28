@@ -2,7 +2,7 @@
 
 Professional cybersecurity portfolio and blog platform.
 
-**Live Site:** https://mugheesm.github.io/mugheesmuhammad.github.io/
+**Live Site:** https://mugheesm.github.io/
 
 ## Features
 
