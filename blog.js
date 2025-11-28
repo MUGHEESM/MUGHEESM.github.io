@@ -79,7 +79,6 @@ function displayPosts(filter = 'all') {
                 <p class="blog-excerpt">${post.excerpt}</p>
                 <div class="blog-actions">
                     ${readButton}
-                    <button class="delete-btn" onclick="deletePost(${post.id})"><i class="fas fa-trash"></i></button>
                 </div>
             </div>
         `;
