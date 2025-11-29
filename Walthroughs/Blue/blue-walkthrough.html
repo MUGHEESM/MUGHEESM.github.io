@@ -76,18 +76,54 @@
             font-family: 'Courier New', monospace;
         }
         
+        .code-block-wrapper {
+            position: relative;
+            margin: 1rem 0;
+        }
+
         .walkthrough-body pre {
             background-color: var(--bg-dark);
             padding: 1rem;
+            padding-top: 2.5rem;
             border-radius: 5px;
             overflow-x: auto;
-            margin: 1rem 0;
+            margin: 0;
             border-left: 3px solid var(--primary-color);
         }
         
         .walkthrough-body pre code {
             background: none;
             padding: 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-btn.copied {
+            background: #4CAF50;
+            color: white;
         }
         
         .walkthrough-body img {
@@ -279,5 +315,43 @@ set rhosts 10.0.2.3</code></pre>
     </footer>
 
     <script src="../../script.js"></script>
+    <script>
+        // Wrap all pre elements with copy button
+        document.addEventListener('DOMContentLoaded', function() {
+            const preElements = document.querySelectorAll('.walkthrough-body pre');
+            
+            preElements.forEach(pre => {
+                // Create wrapper
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-block-wrapper';
+                
+                // Create copy button
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                
+                // Insert wrapper before pre
+                pre.parentNode.insertBefore(wrapper, pre);
+                
+                // Move pre into wrapper and add button
+                wrapper.appendChild(copyBtn);
+                wrapper.appendChild(pre);
+                
+                // Copy functionality
+                copyBtn.addEventListener('click', function() {
+                    const code = pre.querySelector('code').textContent;
+                    navigator.clipboard.writeText(code).then(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        copyBtn.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                            copyBtn.classList.remove('copied');
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
