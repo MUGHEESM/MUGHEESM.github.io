@@ -1,5 +1,16 @@
 [
     {
+        "id": 5,
+        "title": "Academy Machine Walkthrough - Complete Penetration Test",
+        "category": "walkthrough",
+        "excerpt": "Full penetration testing walkthrough of the Academy machine. Learn reconnaissance, hash cracking, PHP exploitation, and privilege escalation via cron job abuse.",
+        "content": "<h3>Overview</h3><p>This comprehensive walkthrough covers the complete penetration test of the Academy machine. You'll learn FTP enumeration, hash cracking, directory bruteforcing, PHP reverse shell upload, and privilege escalation through cron job manipulation.</p><p><a href='Walthroughs/Academy/academy-walkthrough.html' style='color: var(--primary-color);'>Read the full walkthrough →</a></p>",
+        "image": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&h=400&fit=crop",
+        "date": "2025-11-29",
+        "isExternal": true,
+        "externalLink": "Walthroughs/Academy/academy-walkthrough.html"
+    },
+    {
         "id": 4,
         "title": "Blue Machine Walkthrough - EternalBlue Exploit",
         "category": "walkthrough",
