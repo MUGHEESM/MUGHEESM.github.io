@@ -1,5 +1,16 @@
 [
     {
+        "id": 6,
+        "title": "Dev Machine Walkthrough - NFS, LFI & Privilege Escalation",
+        "category": "walkthrough",
+        "excerpt": "Advanced penetration testing walkthrough covering NFS enumeration, Local File Inclusion exploitation, password cracking, and privilege escalation via sudo zip abuse.",
+        "content": "<h3>Overview</h3><p>This comprehensive walkthrough demonstrates multiple attack vectors on the Dev machine. Learn NFS mounting, LFI exploitation, fcrackzip usage, SSH key extraction, and GTFOBins sudo escalation techniques.</p><p><a href='Walthroughs/Dev/dev-walkthrough.html' style='color: var(--primary-color);'>Read the full walkthrough →</a></p>",
+        "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop",
+        "date": "2025-11-30",
+        "isExternal": true,
+        "externalLink": "Walthroughs/Dev/dev-walkthrough.html"
+    },
+    {
         "id": 5,
         "title": "Academy Machine Walkthrough - Complete Penetration Test",
         "category": "walkthrough",
