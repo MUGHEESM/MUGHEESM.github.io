@@ -360,6 +360,109 @@ body {
     margin-bottom: 1rem;
 }
 
+/* AI Red Teaming Section */
+.ai-red-teaming {
+    padding: 100px 0;
+    background: linear-gradient(180deg, rgba(17, 34, 64, 0.45), rgba(10, 25, 47, 0.95));
+}
+
+.repo-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.repo-overview-card,
+.repo-structure-card {
+    background-color: var(--bg-light);
+    border: 1px solid var(--bg-lighter);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 255, 136, 0.08);
+}
+
+.repo-overview-card h3,
+.repo-structure-card h3 {
+    color: var(--heading-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.repo-overview-card a {
+    color: var(--primary-color);
+}
+
+.repo-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.repo-tree {
+    background-color: var(--bg-dark);
+    border-radius: 10px;
+    padding: 1rem;
+    color: var(--accent-color);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    border: 1px solid rgba(0, 255, 136, 0.12);
+}
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+
+.module-card {
+    background-color: var(--bg-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.module-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 255, 136, 0.15);
+}
+
+.module-card.complete {
+    border-color: rgba(0, 255, 136, 0.45);
+}
+
+.module-card.in-progress {
+    border-color: rgba(100, 255, 218, 0.45);
+}
+
+.module-card.pending {
+    border-color: rgba(136, 146, 176, 0.35);
+}
+
+.module-label {
+    display: inline-block;
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.module-card h3 {
+    color: var(--heading-color);
+    margin-bottom: 0.75rem;
+    font-size: 1.15rem;
+}
+
+.module-card p {
+    color: var(--text-color);
+}
+
 /* Skills Section */
 .skills {
     padding: 100px 0;
