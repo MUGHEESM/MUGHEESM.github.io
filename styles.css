@@ -519,6 +519,24 @@ body {
     background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
 }
 
+.cert-link {
+    color: var(--primary-color);
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 4px 8px;
+}
+
+.cert-link:hover {
+    text-decoration: underline;
+}
+
+.cert-done {
+    font-size: 1rem;
+}
+
 .skill-category li {
     padding: 0.5rem 0;
     color: var(--text-color);
