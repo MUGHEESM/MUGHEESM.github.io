@@ -514,17 +514,16 @@ body {
 }
 
 .cert-item-link {
-    color: var(--text-color);
+    color: var(--heading-color);
     text-decoration: none;
+}
+
+.cert-item-link:visited {
+    color: var(--heading-color);
 }
 
 .cert-item-link:hover {
     color: var(--primary-color);
-}
-
-.cert-proof {
-    display: inline-block;
-    margin-top: 1rem;
 }
 
 .skill-category li {
