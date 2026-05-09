@@ -505,12 +505,6 @@ body {
     list-style: none;
 }
 
-.certs-inline {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
 .cert-img {
     width: 96px;
     height: auto;
@@ -519,22 +513,18 @@ body {
     background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
 }
 
-.cert-link {
-    color: var(--primary-color);
-    font-weight: 700;
+.cert-item-link {
+    color: var(--text-color);
     text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 4px 8px;
 }
 
-.cert-link:hover {
-    text-decoration: underline;
+.cert-item-link:hover {
+    color: var(--primary-color);
 }
 
-.cert-done {
-    font-size: 1rem;
+.cert-proof {
+    display: inline-block;
+    margin-top: 1rem;
 }
 
 .skill-category li {
